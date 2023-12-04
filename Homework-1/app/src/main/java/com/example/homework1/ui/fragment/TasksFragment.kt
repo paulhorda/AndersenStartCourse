@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.homework1.R
 import com.example.homework1.databinding.FragmentTasksBinding
@@ -29,9 +31,7 @@ class TasksFragment : Fragment() {
 
     val args: TasksFragmentArgs by navArgs()
 
-//    private val sharedPreferences: SharedPreferences =
-//        requireActivity().getSharedPreferences("TaskPreferences", Context.MODE_PRIVATE)
-//    private val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,15 +49,23 @@ class TasksFragment : Fragment() {
         taskController.getTasksLiveData(args.projectId).observe(viewLifecycleOwner){ tasks ->
             taskController.adapter.tasks = tasks
         }
+         val sharedPreferences: SharedPreferences =
+            requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+         val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-//        taskController.adapter.taskCallback ={
-//            editor.putLong("taskId", it.id)
-//            editor.apply()
-////            MaterialAlertDialogBuilder(requireContext())
-////                .setTitle(getString(R.string.success))
-////                .setMessage(getString(R.string.success_add_task_for_timer))
-////                .show()
-//        }
+        taskController.adapter.taskCallback ={
+            editor.putLong("taskId", it.id)
+            editor.putString("taskName", it.name)
+            editor.apply()
+
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.success))
+                .setMessage(getString(R.string.success_add_task_for_timer))
+                .setPositiveButton("OK") { _, _ ->
+                    findNavController().popBackStack()
+                }
+                .show()
+        }
 
         binding.addNewTaskFab.setOnClickListener {
             showAddNewTaskDialog()
