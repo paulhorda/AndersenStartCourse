@@ -9,11 +9,7 @@
         android:id="@+id/timerFragment"
         android:name="com.example.homework1.ui.fragment.TimerFragment"
         android:label="@string/timer"
-        tools:layout="@layout/fragment_timer" >
-        <action
-            android:id="@+id/action_timerFragment_to_projectsFragment"
-            app:destination="@id/projectsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_timer" />
     <fragment
         android:id="@+id/projectsFragment"
         android:name="com.example.homework1.ui.fragment.ProjectsFragment"
@@ -22,10 +18,6 @@
         <action
             android:id="@+id/action_projectsFragment_to_tasksFragment"
             app:destination="@id/tasksFragment" />
-        <argument
-            android:name="isSelect"
-            app:argType="boolean"
-            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/tasksFragment"
