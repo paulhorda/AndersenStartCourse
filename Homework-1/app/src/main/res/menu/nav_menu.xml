@@ -6,6 +6,6 @@
         android:title="@string/timer" />
 
     <item android:id="@id/projectsFragment"
-        android:icon="@drawable/timer_48"
+        android:icon="@drawable/project_48"
         android:title="@string/project" />
 </menu>

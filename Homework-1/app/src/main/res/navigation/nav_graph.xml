@@ -8,11 +8,24 @@
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.example.homework1.ui.fragment.TimerFragment"
-        android:label="fragment_timer"
+        android:label="@string/timer"
         tools:layout="@layout/fragment_timer" />
     <fragment
         android:id="@+id/projectsFragment"
         android:name="com.example.homework1.ui.fragment.ProjectsFragment"
-        android:label="fragment_projects"
-        tools:layout="@layout/fragment_projects" />
+        android:label="@string/projects"
+        tools:layout="@layout/fragment_projects">
+        <action
+            android:id="@+id/action_projectsFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.example.homework1.ui.fragment.TasksFragment"
+        android:label="@string/tasks"
+        tools:layout="@layout/fragment_tasks">
+        <argument
+            android:name="projectId"
+            app:argType="long" />
+    </fragment>
 </navigation>
