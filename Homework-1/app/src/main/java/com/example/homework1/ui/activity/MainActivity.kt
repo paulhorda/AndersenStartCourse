@@ -2,12 +2,15 @@ package com.example.homework1.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.homework1.R
 import com.example.homework1.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -25,18 +28,25 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener{_, destination, _ ->
-            updateToolbar(destination)
-        }
-    }
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.timerFragment,
+                R.id.projectsFragment,
+                -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    binding.bottomNavigationView.visibility = View.VISIBLE
+                }
 
-    private fun updateToolbar(destination: NavDestination) {
-        val title = when (destination.id) {
-            R.id.timerFragment -> getString(R.string.timer)
-            R.id.projectsFragment -> getString(R.string.project)
-            else -> getString(R.string.app_name)
+                else -> {
+                    binding.bottomNavigationView.visibility = View.INVISIBLE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+            }
+            title = destination.label
         }
 
-        supportActionBar?.title = title
+        binding.materialToolbar.setNavigationOnClickListener {
+            navHostFragment.navController.popBackStack()
+        }
     }
 }
